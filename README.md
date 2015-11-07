@@ -22,16 +22,14 @@
 
 ## The workflow
 
-The scripts are super hacky and assume the following workflow:
+* This code is written for python 3.5 You probably want virtualenv. requirements.txt is included so that you can easily install the required packages. My .gitignore hints that I have virtualenv setup in a venv folder. A quickstart for this project is:
 
-* Before developing, activate virtual env:
 ```bash
-source venv/bin/activate
-```
-
-* If this is your first time, you'll need to install the python packages
-```bash
-pip install requirements.txt
+virtualenv venv # Do this once.
+source venv/bin/activate # Before developing, activate virtual env. Do this in every shell you run python in.
+pip install requirements.txt # Do this the first time, and whenever requirements.txt changes.
+# hack... hack... hack...
+deactivate # undo the activate from before.
 ```
 
 ### The data translations
