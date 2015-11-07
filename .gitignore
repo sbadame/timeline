@@ -1,0 +1,5 @@
+images/*
+venv/*
+configs/*
+**/__pycache__
+src/*.json

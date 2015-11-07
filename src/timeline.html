@@ -1,0 +1,115 @@
+<html>
+  <head>
+    <script src="../jslib/d3.v3.min.js" charset="utf-8"></script>
+    <script src="" charset="utf-8"></script>
+  </head>
+  <body>
+    <div>
+      <h1>Links</h1>
+      <ul id="links"></ul>
+    </div>
+    <div>
+      <h1>Files</h1>
+      <ul id="files"></ul>
+    </div>
+    <div>
+      <h1>Tables</h1>
+      <ul id="tables"></ul>
+    </div>
+    <div>
+      <h1>Images</h1>
+      <ul id="images"></ul>
+    </div>
+    <div>
+      <h1>Timeline</h1>
+      <div id="timeline"></div>
+    </div>
+
+    <script type="text/javascript">
+      function transformJson(json, transform) {
+        json.forEach(function(entry) {
+          var delta = transform(entry);
+          Object.keys(delta).forEach(function(key) {
+            entry[key] = delta[key];
+          });
+        });
+      }
+
+      function convertDatetime(email) {
+        datetime = email.datetime;
+        return {
+          // TODO(sbadame): Use ISO format to make serialization/deserializtion better.
+          'datetime': new Date(datetime[0], datetime[1], datetime[2], datetime[3], datetime[4], datetime[5]),
+        };
+      }
+
+      function convertNames(email) {
+        return {
+          'who': email.who.split(/\s+/)[0],
+        };
+      }
+
+      d3.json("massage.json", function(error, json) {
+        global_json = json;
+        var identity = function(e) { return e; };
+
+        if (error) return console.warn(error);
+        transformJson(json, convertDatetime);
+        transformJson(json, convertNames);
+
+        var entry = d3.select("#timeline")
+          .selectAll("p")
+          .data(json)
+          .enter().append("div").attr("id", function(email, index) { return index; });
+
+        dateFormat = d3.time.format("%b %d");
+        entry.append("span").text(function(e) {
+          return dateFormat(e.datetime) + " " + e.who + ": " + e.text.substring(0, 140);
+        });
+
+        var links = json.reduce(function(prev, cur) { return prev.concat(cur.links)}, []);
+        console.log(links);
+
+        var link_list_item = d3.select('#links')
+          .selectAll("li")
+          .data(links)
+          .enter().append("li");
+        link_list_item.append("a")
+          .text(function(e) { return e.text; })
+          .attr('href', function(e) { return e.href});
+
+        var images = json.reduce(function(prev, cur) { return prev.concat(cur.images)}, []);
+        var image_items = d3.select('#images')
+          .selectAll("li")
+          .data(images)
+          .enter().append("li");
+        image_items.append("img")
+          .attr('src', identity)
+          .style('max-height', '200px')
+          .style('max-width', '200px');
+
+
+        var tables = json.reduce(function(prev, cur) { return prev.concat(cur.tables)}, []);
+        var table_items = d3.select('#tables')
+          .selectAll('li')
+          .data(tables)
+          .enter()
+            .append("li").html(identity);
+
+        var files = json.reduce(function(prev, cur) { return prev.concat(cur.files)}, []);
+        var file_items = d3.select('#files')
+          .selectAll('li')
+          .data(files)
+          .enter()
+            .append("li");
+
+        file_items.append('div').text(function(e) { return e.title; })
+        var file_items_link = file_items.append('a');
+        file_items_link
+          .attr('href', function(e) { return e.alternateLink; })
+          .attr('target', '_blank');
+        file_items_link.append('img').attr('src', function(e) { return e.thumbnailLink; })
+      });
+    </script>
+  </body>
+</html>
