@@ -17,7 +17,7 @@ def parse_nouns(blob):
   return Counter([
     n.lower()
     for (n, pos) in blob.tags
-    if pos.startswith('N') or pos == 'VBG'])
+    if pos[0] in ['N', 'J'] or pos == 'VBG'])
 
 def merge_counts(dict1, dict2):
   # Combines to dictionaries, if a key exists in both, the value is their sum.
