@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from collections import Counter
 from textblob import TextBlob
 import json
 
@@ -11,6 +12,8 @@ def parse(text):
     return (nouns, sentiment)
 
 def parse_nouns(blob):
-  return [n
-          for (n,pos) in blob.tags
-          if pos.startswith('N')]
+  # Return a where nouns are the keys, values are the number of occurences.
+  return Counter([
+    n.lower()
+    for (n, pos) in blob.tags
+    if pos.startswith('N')])
