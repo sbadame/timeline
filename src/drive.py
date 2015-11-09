@@ -12,7 +12,7 @@ URL_TEMPLATE = Template('https://www.googleapis.com/drive/v2/files/${id}?fields=
 @functools.lru_cache(maxsize=1)
 def get_api_key():
   if os.path.isfile(KEY_PATH):
-    print('LOG: loading google drive key')
+    print('LOG: loading google drive key', file=sys.stderr)
     return open(KEY_PATH, 'r').read().strip()
   else:
     print('LOG: ' + KEY_PATH + ' is missing, Google drive parsing is disabled', file=sys.stderr)
