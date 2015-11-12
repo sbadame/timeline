@@ -27,7 +27,7 @@
 ```bash
 virtualenv venv # Do this once.
 source venv/bin/activate # Before developing, activate virtual env. Do this in every shell you run python in.
-pip install requirements.txt # Do this the first time, and whenever requirements.txt changes.
+pip install -r requirements.txt # Do this the first time, and whenever requirements.txt changes.
 # hack... hack... hack...
 deactivate # undo the activate from before.
 ```
