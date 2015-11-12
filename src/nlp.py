@@ -22,7 +22,7 @@ def parse_nouns(blob):
 def merge_counts(dict1, dict2):
   # Combines to dictionaries, if a key exists in both, the value is their sum.
   merged = {}
-  for key in {**dict1, **dict2}:
+  for key in merged_dicts(dict1, dict2):
     if key in dict1 and key in dict2:
       merged[key] = dict1[key] + dict2[key]
     elif key in dict1:
@@ -30,3 +30,10 @@ def merge_counts(dict1, dict2):
     else:
       merged[key] = dict2[key]
   return merged
+
+def merge_dicts(*args):
+  """The only way to do this in python2-3... """
+  m = {}
+  for arg in args:
+    m.update(arg)
+  return m
