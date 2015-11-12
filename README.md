@@ -19,6 +19,15 @@
 1. Get a credential
 1. Put it into configs/drive.key
 
+## NLP integration
+
+To get the nlp stuff to work, you're going need a corpus of data.
+The simplest way to get some corpus data is to run:
+
+```bash
+python -m textblob.download_corpora
+```
+
 
 ## The workflow
 
