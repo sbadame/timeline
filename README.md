@@ -25,7 +25,8 @@
 * This code is written for python 3.5 You probably want virtualenv. requirements.txt is included so that you can easily install the required packages. My .gitignore hints that I have virtualenv setup in a venv folder. A quickstart for this project is:
 
 ```bash
-virtualenv venv # Do this once.
+# Checkout this project, cd into it.
+virtualenv -p python3 venv # Do this once.
 source venv/bin/activate # Before developing, activate virtual env. Do this in every shell you run python in.
 pip install -r requirements.txt # Do this the first time, and whenever requirements.txt changes.
 # hack... hack... hack...
